@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSuppliers } from '../api/suppliers'
 import { importFromEmail } from '../api/import'
 import { useAuth } from '../store/auth'
+import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import type { Supplier } from '../types'
 
 export default function Main() {
@@ -13,13 +14,23 @@ export default function Main() {
   const [error, setError] = useState<string | null>(null)
   const [importing, setImporting] = useState(false)
   const [importResult, setImportResult] = useState<{ imported: number; skipped: number } | null>(null)
+  const [confirmLogout, setConfirmLogout] = useState(false)
+
+  const loadSuppliers = useCallback(async () => {
+    try {
+      const data = await getSuppliers()
+      setSuppliers(data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load suppliers')
+    }
+  }, [])
 
   useEffect(() => {
-    getSuppliers()
-      .then(setSuppliers)
-      .catch(err => setError(err instanceof Error ? err.message : 'Failed to load suppliers'))
-      .finally(() => setLoading(false))
-  }, [])
+    loadSuppliers().finally(() => setLoading(false))
+  }, [loadSuppliers])
+
+  const { refreshing, pulling } = usePullToRefresh(loadSuppliers)
 
   const handleImport = async () => {
     setImporting(true)
@@ -27,8 +38,7 @@ export default function Main() {
     try {
       const result = await importFromEmail()
       setImportResult({ imported: result.imported, skipped: result.skipped })
-      const updated = await getSuppliers()
-      setSuppliers(updated)
+      await loadSuppliers()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Import failed')
     } finally {
@@ -48,13 +58,19 @@ export default function Main() {
           >
             {importing ? 'Importing...' : 'Import email'}
           </button>
-          <button onClick={logout} className="text-sm text-gray-500">
+          <button onClick={() => setConfirmLogout(true)} className="text-sm text-gray-500">
             Logout
           </button>
         </div>
       </header>
 
       <main className="px-4 py-4">
+        {(pulling || refreshing) && (
+          <p className="text-center text-sm text-gray-400 mb-2">
+            {refreshing ? 'Refreshing...' : 'Release to refresh'}
+          </p>
+        )}
+
         {importResult && (
           <div className="mb-4 bg-green-50 border border-green-200 rounded-lg px-4 py-2 text-sm text-green-700">
             Imported {importResult.imported}, skipped {importResult.skipped}
@@ -76,7 +92,7 @@ export default function Main() {
             {suppliers.map(supplier => (
               <button
                 key={supplier.id}
-                onClick={() => navigate(`/suppliers/${supplier.id}`)}
+                onClick={() => navigate(`/suppliers/${supplier.id}`, { state: { name: supplier.name } })}
                 className="bg-white rounded-xl shadow p-4 flex flex-col items-center gap-2 active:scale-95 transition-transform"
               >
                 {supplier.logo_url ? (
@@ -93,6 +109,26 @@ export default function Main() {
           </div>
         )}
       </main>
+
+      {confirmLogout && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 flex flex-col gap-4">
+            <h2 className="text-lg font-bold text-center">Log out?</h2>
+            <button
+              onClick={logout}
+              className="bg-red-500 text-white rounded-xl py-3 font-medium"
+            >
+              Log out
+            </button>
+            <button
+              onClick={() => setConfirmLogout(false)}
+              className="text-gray-500 py-2 text-sm"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
