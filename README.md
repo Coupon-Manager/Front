@@ -63,6 +63,21 @@ src/
 └── types/        # Shared TypeScript types (Supplier, Coupon, User)
 ```
 
+## Roadmap
+
+| # | Stage | Status |
+|---|-------|--------|
+| 1 | Project scaffold — Vite + React + TS + Tailwind + folder structure | ⬜ |
+| 2 | TypeScript types — Supplier, Coupon, User | ⬜ |
+| 3 | API client — base fetch wrapper + typed endpoint functions | ⬜ |
+| 4 | Auth store — JWT in localStorage, login/logout | ⬜ |
+| 5 | Login screen | ⬜ |
+| 6 | Routing — protected routes, redirect to login | ⬜ |
+| 7 | Main screen — supplier cards grid | ⬜ |
+| 8 | Supplier screen — coupon list, sortable, used grayed out | ⬜ |
+| 9 | Coupon Viewer screen — large code, Mark Used, Back | ⬜ |
+| 10 | Add Coupon screen — manual entry form | ⬜ |
+
 ## Getting Started
 
 ```bash
