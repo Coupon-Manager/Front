@@ -2,7 +2,6 @@ export interface Supplier {
   id: number
   name: string
   logo_url: string | null
-  color: string | null
   available_balance: number
 }
 
