@@ -1,4 +1,4 @@
-# Coupon Manager — Frontend
+# Coupon App — Frontend
 
 React + TypeScript frontend for managing supermarket coupon codes received via SMS and email.
 
@@ -9,32 +9,25 @@ React + TypeScript frontend for managing supermarket coupon codes received via S
 - **Styling:** Tailwind CSS (shadcn/ui may be added later — it builds on Tailwind, no migration needed)
 - **Auth storage:** JWT stored in `localStorage`, attached to all API requests
 - **HTTP:** native `fetch`
+- **PWA:** vite-plugin-pwa (service worker, installable on Android)
 
 ## Screens
 
 ### Main Screen
 
-Grid of supplier cards, each showing the supplier logo (if available) and current available balance (sum of unused coupons). Includes a button to trigger email import.
+Grid of supplier cards, each showing the supplier logo (if available) and current available balance. Includes email import button and pull to refresh.
 
 ### Supplier Screen
 
-List of all coupons for a selected supplier. Used coupons are grayed out. Sortable by value.
+Two sections — Available and Used coupons. Sortable by value or date. Pull to refresh.
 
 ### Coupon Viewer Screen
 
-Displays the coupon code in large text format for manual entry at checkout. Shows a placeholder if the code has not yet been parsed.
-
-Actions:
-- **Mark Used** — prompts confirmation before marking the coupon as used
-- **Back**
-
-### Add Coupon Screen
-
-Manual entry form for adding a new coupon (calls `POST /coupons`).
+Displays the coupon code in large text (grouped in 4s) for manual entry at checkout. Toggle used/unused with confirmation.
 
 ### Login Screen
 
-Email + password login. JWT stored in `localStorage` and attached to all API requests.
+Email + password login. JWT stored in `localStorage`.
 
 ### Register Screen
 
@@ -42,7 +35,7 @@ Email + password registration.
 
 ## API
 
-Talks to a FastAPI backend. Base URL configured via environment variable. Some endpoints may not be available yet and will be integrated as the backend is completed.
+Talks to a FastAPI backend. Base URL configured via environment variable.
 
 | Method | Endpoint                    | Description                          |
 |--------|-----------------------------|--------------------------------------|
@@ -51,13 +44,22 @@ Talks to a FastAPI backend. Base URL configured via environment variable. Some e
 | GET    | `/suppliers`                | All suppliers with available balance |
 | GET    | `/suppliers/{id}/coupons`   | Coupons for a supplier               |
 | POST   | `/coupons`                  | Add a coupon manually                |
-| PATCH  | `/coupons/{id}/use`         | Mark a coupon as used                |
+| PATCH  | `/coupons/{id}/use`         | Mark a coupon as used/unused (toggle)|
 | POST   | `/import/email`             | Trigger email import                 |
+
+## Environments
+
+| Env | API URL |
+|-----|---------|
+| Local | `http://localhost:8000` |
+| Production | `https://api.yam-ti.com` |
+
+Frontend is deployed at `https://app.yam-ti.com` via Cloudflare Pages.
 
 ## Design
 
 - Mobile-first
-- No design system yet — TBD
+- No design system yet — TBD (Tailwind → shadcn/ui when ready)
 
 ## Project Structure
 
@@ -65,8 +67,9 @@ Talks to a FastAPI backend. Base URL configured via environment variable. Some e
 src/
 ├── api/          # API client and typed request functions
 ├── components/   # Shared UI components
-├── pages/        # Screen-level components (Main, Supplier, CouponViewer, AddCoupon, Login, Register)
-├── store/        # Global state (auth token, selected supplier)
+├── hooks/        # Custom hooks (usePullToRefresh)
+├── pages/        # Screen-level components
+├── store/        # Global state (auth token)
 └── types/        # Shared TypeScript types (Supplier, Coupon, User)
 ```
 
@@ -74,21 +77,26 @@ src/
 
 | # | Stage | Status |
 |---|-------|--------|
-| 1 | Project scaffold — Vite + React + TS + Tailwind + folder structure | ✅ |
-| 2 | TypeScript types — Supplier, Coupon, User | ✅ |
-| 3 | API client — base fetch wrapper + typed endpoint functions | ⬜ |
-| 4 | Auth store — JWT in localStorage, login/logout | ⬜ |
-| 5 | Login screen | ⬜ |
-| 6 | Register screen | ⬜ |
-| 7 | Routing — protected routes, redirect to login | ⬜ |
-| 8 | Main screen — supplier cards grid, logo, email import button | ⬜ |
-| 9 | Supplier screen — coupon list, sortable, used grayed out | ⬜ |
-| 10 | Coupon Viewer screen — large code, Mark Used, Back | ⬜ |
-| 11 | Add Coupon screen — needs design thought: new supplier flow, code requirement TBD | 🔲 |
+| 1 | Project scaffold — Vite + React + TS + Tailwind | ✅ |
+| 2 | TypeScript types | ✅ |
+| 3 | API client | ✅ |
+| 4 | Auth store — JWT in localStorage | ✅ |
+| 5 | Login screen | ✅ |
+| 6 | Register screen | ✅ |
+| 7 | Routing — protected routes | ✅ |
+| 8 | Main screen | ✅ |
+| 9 | Supplier screen — two lists, sortable by value/date | ✅ |
+| 10 | Coupon Viewer screen — large code, toggle used | ✅ |
+| 11 | PWA — installable on Android | ✅ |
+| 12 | Pull to refresh on Main and Supplier screens | ✅ |
+| 13 | Logout confirmation | ✅ |
+| 14 | Production deployment — Cloudflare Pages | ✅ |
+| 15 | Add Coupon screen — needs design: new supplier flow, code requirement TBD | 🔲 |
 
 ## Getting Started
 
 ```bash
+cp .env.example .env
 npm install
 npm run dev
 ```
