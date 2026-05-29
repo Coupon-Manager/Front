@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState, useCallback } from 'react'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getCoupons } from '../api/coupons'
+import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -37,6 +38,9 @@ function CouponRow({ coupon, supplierId }: { coupon: Coupon; supplierId: string 
 export default function Supplier() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { state } = useLocation()
+  const supplierName: string = state?.name ?? 'Coupons'
+
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -45,13 +49,22 @@ export default function Supplier() {
 
   const toggleDir = () => setSortDir(d => d === 'desc' ? 'asc' : 'desc')
 
-  useEffect(() => {
+  const loadCoupons = useCallback(async () => {
     if (!id) return
-    getCoupons(Number(id))
-      .then(setCoupons)
-      .catch(err => setError(err instanceof Error ? err.message : 'Failed to load coupons'))
-      .finally(() => setLoading(false))
+    try {
+      const data = await getCoupons(Number(id))
+      setCoupons(data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load coupons')
+    }
   }, [id])
+
+  useEffect(() => {
+    loadCoupons().finally(() => setLoading(false))
+  }, [loadCoupons])
+
+  const { refreshing, pulling } = usePullToRefresh(loadCoupons)
 
   const unused = sortCoupons(coupons.filter(c => !c.used), sortKey, sortDir)
   const used = sortCoupons(coupons.filter(c => c.used), sortKey, sortDir)
@@ -62,7 +75,7 @@ export default function Supplier() {
         <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
           ← Back
         </button>
-        <h1 className="text-lg font-bold flex-1">Coupons</h1>
+        <h1 className="text-lg font-bold flex-1">{supplierName}</h1>
         <div className="flex items-center gap-1">
           <select
             value={sortKey}
@@ -79,6 +92,12 @@ export default function Supplier() {
       </header>
 
       <main className="px-4 py-4 flex flex-col gap-6">
+        {(pulling || refreshing) && (
+          <p className="text-center text-sm text-gray-400">
+            {refreshing ? 'Refreshing...' : 'Release to refresh'}
+          </p>
+        )}
+
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-sm text-red-700">
             {error}
