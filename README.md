@@ -84,7 +84,7 @@ src/
 | 8 | Main screen — supplier cards grid, logo, email import button | ⬜ |
 | 9 | Supplier screen — coupon list, sortable, used grayed out | ⬜ |
 | 10 | Coupon Viewer screen — large code, Mark Used, Back | ⬜ |
-| 11 | Add Coupon screen — manual entry form | ⬜ |
+| 11 | Add Coupon screen — needs design thought: new supplier flow, code requirement TBD | 🔲 |
 
 ## Getting Started
 
