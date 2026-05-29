@@ -18,7 +18,7 @@ export default function Login() {
     try {
       const { access_token } = await login(email, password)
       saveToken(access_token)
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {

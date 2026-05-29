@@ -18,7 +18,7 @@ export default function Register() {
     try {
       const { access_token } = await register(email, password)
       saveToken(access_token)
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {

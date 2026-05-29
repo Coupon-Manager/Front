@@ -31,7 +31,7 @@ export default function CouponViewer() {
       const updated = await markCouponUsed(coupon.id)
       setCoupon(updated)
       setConfirming(false)
-      navigate(`/suppliers/${id}`)
+      navigate(`/suppliers/${id}`, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to mark as used')
     } finally {
