@@ -17,6 +17,7 @@ function sortCoupons(coupons: Coupon[], key: SortKey, dir: SortDir): Coupon[] {
 
 function CouponRow({ coupon, supplierId }: { coupon: Coupon; supplierId: string }) {
   const navigate = useNavigate()
+  const date = new Date(coupon.created_at).toLocaleDateString()
   return (
     <button
       onClick={() => navigate(`/suppliers/${supplierId}/coupons/${coupon.id}`)}
@@ -24,7 +25,10 @@ function CouponRow({ coupon, supplierId }: { coupon: Coupon; supplierId: string 
         coupon.used ? 'opacity-40' : ''
       }`}
     >
-      <span className="text-sm text-gray-500">{coupon.code ?? 'Code not parsed yet'}</span>
+      <div className="flex flex-col gap-0.5">
+        <span className="text-sm text-gray-500">{coupon.code ?? 'Code not parsed yet'}</span>
+        <span className="text-xs text-gray-400">{date}</span>
+      </div>
       <span className="text-lg font-bold text-green-600">₪{coupon.value}</span>
     </button>
   )
