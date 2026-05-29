@@ -68,7 +68,7 @@ src/
 | # | Stage | Status |
 |---|-------|--------|
 | 1 | Project scaffold — Vite + React + TS + Tailwind + folder structure | ✅ |
-| 2 | TypeScript types — Supplier, Coupon, User | ⬜ |
+| 2 | TypeScript types — Supplier, Coupon, User | ✅ |
 | 3 | API client — base fetch wrapper + typed endpoint functions | ⬜ |
 | 4 | Auth store — JWT in localStorage, login/logout | ⬜ |
 | 5 | Login screen | ⬜ |
