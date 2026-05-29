@@ -11,6 +11,7 @@ export interface Coupon {
   code: string | null
   value: number
   used: boolean
+  created_at: string
   used_at: string | null
   added_by_id: number
 }
