@@ -55,10 +55,9 @@ export default function Supplier() {
             {sorted.map(coupon => (
               <button
                 key={coupon.id}
-                onClick={() => !coupon.used && navigate(`/suppliers/${id}/coupons/${coupon.id}`)}
-                disabled={coupon.used}
-                className={`bg-white rounded-xl shadow px-4 py-3 flex items-center justify-between text-left transition-opacity ${
-                  coupon.used ? 'opacity-40 cursor-default' : 'active:scale-95'
+                onClick={() => navigate(`/suppliers/${id}/coupons/${coupon.id}`)}
+                className={`bg-white rounded-xl shadow px-4 py-3 flex items-center justify-between text-left transition-opacity active:scale-95 ${
+                  coupon.used ? 'opacity-40' : ''
                 }`}
               >
                 <div className="flex flex-col gap-0.5">
