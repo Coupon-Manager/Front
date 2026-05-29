@@ -2,9 +2,20 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSuppliers } from '../api/suppliers'
 import { importFromEmail } from '../api/import'
+import { getMe } from '../api/auth'
 import { useAuth } from '../store/auth'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import type { Supplier } from '../types'
+
+function formatRelative(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const minutes = Math.floor(diff / 60000)
+  if (minutes < 1) return 'just now'
+  if (minutes < 60) return `${minutes}m ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours}h ago`
+  return new Date(dateStr).toLocaleDateString()
+}
 
 export default function Main() {
   const { logout } = useAuth()
@@ -15,6 +26,7 @@ export default function Main() {
   const [importing, setImporting] = useState(false)
   const [importResult, setImportResult] = useState<{ imported: number; skipped: number } | null>(null)
   const [confirmLogout, setConfirmLogout] = useState(false)
+  const [lastSync, setLastSync] = useState<string | null>(null)
 
   const loadSuppliers = useCallback(async () => {
     try {
@@ -28,6 +40,7 @@ export default function Main() {
 
   useEffect(() => {
     loadSuppliers().finally(() => setLoading(false))
+    getMe().then(user => setLastSync(user.last_email_sync)).catch(() => {})
   }, [loadSuppliers])
 
   const { refreshing, pulling } = usePullToRefresh(loadSuppliers)
@@ -49,7 +62,12 @@ export default function Main() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold">Coupon Manager</h1>
+        <div>
+          <h1 className="text-lg font-bold">Coupon Manager</h1>
+          {lastSync && (
+            <p className="text-xs text-gray-400">Synced {formatRelative(lastSync)}</p>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={handleImport}

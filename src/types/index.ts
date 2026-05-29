@@ -18,4 +18,5 @@ export interface Coupon {
 
 export interface User {
   email: string
+  last_email_sync: string | null
 }

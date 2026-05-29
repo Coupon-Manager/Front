@@ -1,3 +1,4 @@
+import type { User } from '../types'
 import { request } from './client'
 
 export function login(email: string, password: string) {
@@ -12,4 +13,8 @@ export function register(email: string, password: string) {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   })
+}
+
+export function getMe() {
+  return request<User>('/auth/me')
 }
