@@ -18,6 +18,7 @@ export default function CouponViewer() {
   const handleCopy = () => {
     if (!coupon?.code) return
     navigator.clipboard.writeText(coupon.code)
+    navigator.vibrate?.(50)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
