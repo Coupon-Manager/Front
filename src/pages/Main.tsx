@@ -72,7 +72,7 @@ export default function Main() {
           <button
             onClick={handleImport}
             disabled={importing}
-            className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg disabled:opacity-50"
+            className="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg disabled:opacity-50"
           >
             {importing ? 'Importing...' : 'Import email'}
           </button>

@@ -37,7 +37,7 @@ export default function Register() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-500"
               required
             />
           </div>
@@ -47,7 +47,7 @@ export default function Register() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-500"
               required
             />
           </div>
@@ -55,13 +55,13 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 text-white rounded-lg py-2 font-medium disabled:opacity-50"
+            className="bg-red-600 text-white rounded-lg py-2 font-medium disabled:opacity-50"
           >
             {loading ? 'Creating account...' : 'Create account'}
           </button>
           <p className="text-center text-sm text-gray-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 font-medium">Sign in</Link>
+            <Link to="/login" className="text-red-600 font-medium">Sign in</Link>
           </p>
         </form>
       </div>

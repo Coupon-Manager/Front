@@ -37,7 +37,7 @@ export default function Login() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-500"
               required
             />
           </div>
@@ -47,7 +47,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-500"
               required
             />
           </div>
@@ -55,13 +55,13 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 text-white rounded-lg py-2 font-medium disabled:opacity-50"
+            className="bg-red-600 text-white rounded-lg py-2 font-medium disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
           <p className="text-center text-sm text-gray-500">
             No account?{' '}
-            <Link to="/register" className="text-blue-600 font-medium">Register</Link>
+            <Link to="/register" className="text-red-600 font-medium">Register</Link>
           </p>
         </form>
       </div>

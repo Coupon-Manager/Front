@@ -42,7 +42,7 @@ export default function CouponViewer() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3">
-        <button onClick={() => navigate(`/suppliers/${id}`)} className="text-blue-600 font-medium">
+        <button onClick={() => navigate(`/suppliers/${id}`)} className="text-red-600 font-medium">
           ← Back
         </button>
         <h1 className="text-lg font-bold">Coupon</h1>

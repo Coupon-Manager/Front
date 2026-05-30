@@ -72,7 +72,7 @@ export default function Supplier() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3">
-        <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
+        <button onClick={() => navigate('/')} className="text-red-600 font-medium">
           ← Back
         </button>
         <h1 className="text-lg font-bold flex-1">{supplierName}</h1>
