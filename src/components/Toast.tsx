@@ -14,7 +14,7 @@ export default function Toast({ message, type, onDismiss }: ToastProps) {
 
   return (
     <div
-      className={`fixed top-4 left-4 right-4 z-50 rounded-xl px-4 py-3 text-sm font-medium shadow-lg ${
+      className={`fixed bottom-6 left-4 right-4 z-50 rounded-xl px-4 py-3 text-sm font-medium shadow-lg ${
         type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
       }`}
     >
