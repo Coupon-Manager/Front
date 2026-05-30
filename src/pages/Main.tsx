@@ -52,6 +52,7 @@ export default function Main() {
       const result = await importFromEmail()
       setImportResult({ imported: result.imported, skipped: result.skipped })
       await loadSuppliers()
+      getMe().then(user => setLastSync(user.last_email_sync)).catch(() => {})
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Import failed')
     } finally {
@@ -64,9 +65,16 @@ export default function Main() {
       <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
         <div>
           <h1 className="text-lg font-bold">Coupon Manager</h1>
-          {lastSync && (
-            <p className="text-xs text-gray-400">Synced {formatRelative(lastSync)}</p>
-          )}
+          <div className="flex items-center gap-2">
+            {suppliers.length > 0 && (
+              <span className="text-sm font-bold text-red-600">
+                ₪{suppliers.reduce((sum, s) => sum + s.available_balance, 0)}
+              </span>
+            )}
+            {lastSync && (
+              <p className="text-xs text-gray-400">· Synced {formatRelative(lastSync)}</p>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <button
