@@ -4,6 +4,7 @@ import { getCoupons } from '../api/coupons'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import SkeletonCouponRow from '../components/SkeletonCouponRow'
 import EmptyState from '../components/EmptyState'
+import Toast from '../components/Toast'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -45,7 +46,7 @@ export default function Supplier() {
 
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [toast, setToast] = useState<string | null>(null)
   const [sortKey, setSortKey] = useState<SortKey>('value')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
 
@@ -56,9 +57,8 @@ export default function Supplier() {
     try {
       const data = await getCoupons(Number(id))
       setCoupons(data)
-      setError(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load coupons')
+      setToast(err instanceof Error ? err.message : 'Failed to load coupons')
     }
   }, [id])
 
@@ -93,17 +93,13 @@ export default function Supplier() {
         </div>
       </header>
 
+      {toast && <Toast message={toast} type="error" onDismiss={() => setToast(null)} />}
+
       <main className="px-4 py-4 flex flex-col gap-6">
         {(pulling || refreshing) && (
           <p className="text-center text-sm text-gray-400">
             {refreshing ? 'Refreshing...' : 'Release to refresh'}
           </p>
-        )}
-
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-sm text-red-700">
-            {error}
-          </div>
         )}
 
         {loading ? (
