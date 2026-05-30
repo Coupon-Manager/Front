@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getCoupons } from '../api/coupons'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
+import SkeletonCouponRow from '../components/SkeletonCouponRow'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -105,7 +106,9 @@ export default function Supplier() {
         )}
 
         {loading ? (
-          <p className="text-center text-gray-400 mt-12">Loading...</p>
+          <div className="flex flex-col gap-2">
+            {Array.from({ length: 4 }).map((_, i) => <SkeletonCouponRow key={i} />)}
+          </div>
         ) : coupons.length === 0 ? (
           <p className="text-center text-gray-400 mt-12">No coupons yet.</p>
         ) : (

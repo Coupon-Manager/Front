@@ -6,6 +6,7 @@ import { getMe } from '../api/auth'
 import { useAuth } from '../store/auth'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import Toast from '../components/Toast'
+import SkeletonSupplierCard from '../components/SkeletonSupplierCard'
 import type { Supplier } from '../types'
 
 function formatRelative(dateStr: string): string {
@@ -100,7 +101,9 @@ export default function Main() {
         )}
 
         {loading ? (
-          <p className="text-center text-gray-400 mt-12">Loading...</p>
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => <SkeletonSupplierCard key={i} />)}
+          </div>
         ) : suppliers.length === 0 ? (
           <p className="text-center text-gray-400 mt-12">No suppliers yet.</p>
         ) : (
