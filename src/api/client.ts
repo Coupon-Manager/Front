@@ -4,6 +4,11 @@ function getToken(): string | null {
   return localStorage.getItem('token')
 }
 
+function forceLogout() {
+  localStorage.removeItem('token')
+  window.location.href = '/login'
+}
+
 export async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken()
 
@@ -17,6 +22,7 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
   })
 
   if (!res.ok) {
+    if (res.status === 401) forceLogout()
     const body = await res.json().catch(() => null)
     const detail = body?.detail ?? `${res.status} ${res.statusText}`
     throw new Error(detail)
