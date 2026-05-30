@@ -92,10 +92,10 @@ src/
 | 13 | Logout confirmation | ✅ |
 | 14 | Production deployment — Cloudflare Pages | ✅ |
 | 15 | Add Coupon screen — needs design: new supplier flow, code requirement TBD | 🔲 |
-| 16 | 401 auto-logout — redirect to login on expired token | ⬜ |
-| 17 | Refresh sync time after email import | ⬜ |
-| 18 | Coupon code copy button on Coupon Viewer | ⬜ |
-| 19 | Total balance in main screen header | ⬜ |
+| 16 | 401 auto-logout — redirect to login on expired token | ✅ |
+| 17 | Refresh sync time after email import | ✅ |
+| 18 | Coupon code copy button on Coupon Viewer | ✅ |
+| 19 | Total balance in main screen header | ✅ |
 | 20 | Toast notifications — replace inline banners | ⬜ |
 | 21 | Loading skeletons on main and supplier screens | ⬜ |
 | 22 | Empty state illustrations | ⬜ |
