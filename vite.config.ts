@@ -15,8 +15,8 @@ export default defineConfig({
         description: 'Manage your supermarket coupons',
         start_url: '/',
         display: 'standalone',
-        background_color: '#f9fafb',
-        theme_color: '#2563eb',
+        background_color: '#FBBF24',
+        theme_color: '#DC2626',
         icons: [
           {
             src: '/favicon.svg',
