@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { register } from '../api/auth'
 import { useAuth } from '../store/auth'
+import PasswordInput from '../components/PasswordInput'
 
 export default function Register() {
   const { saveToken } = useAuth()
@@ -47,26 +48,8 @@ export default function Register() {
               required
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              required
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Confirm password</label>
-            <input
-              type="password"
-              value={confirm}
-              onChange={e => setConfirm(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              required
-            />
-          </div>
+          <PasswordInput label="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+          <PasswordInput label="Confirm password" value={confirm} onChange={e => setConfirm(e.target.value)} required />
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
