@@ -82,9 +82,12 @@ export default function Supplier() {
         </button>
         <div className="flex-1">
           <h1 className="text-lg font-bold">{supplierName}</h1>
-          {!loading && unused.length > 0 && (
+          {!loading && coupons.length > 0 && (
             <p className="text-sm font-bold text-red-600">
-              ₪{unused.reduce((sum, c) => sum + c.value, 0)}
+              ₪{unused.reduce((sum, c) => sum + c.value, 0)} available
+              {used.length > 0 && (
+                <span className="font-normal text-gray-400"> · ₪{used.reduce((sum, c) => sum + c.value, 0)} used</span>
+              )}
             </p>
           )}
         </div>
