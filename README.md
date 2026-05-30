@@ -96,9 +96,9 @@ src/
 | 17 | Refresh sync time after email import | ✅ |
 | 18 | Coupon code copy button on Coupon Viewer | ✅ |
 | 19 | Total balance in main screen header | ✅ |
-| 20 | Toast notifications — replace inline banners | ⬜ |
-| 21 | Loading skeletons on main and supplier screens | ⬜ |
-| 22 | Empty state illustrations | ⬜ |
+| 20 | Toast notifications — replace inline banners | ✅ |
+| 21 | Loading skeletons on main and supplier screens | ✅ |
+| 22 | Empty state illustrations | ✅ |
 
 ## Getting Started
 
