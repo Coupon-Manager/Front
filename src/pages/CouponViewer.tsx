@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getCoupons, markCouponUsed } from '../api/coupons'
 import type { Coupon } from '../types'
 
 export default function CouponViewer() {
   const { id, couponId } = useParams<{ id: string; couponId: string }>()
   const navigate = useNavigate()
+  const { state } = useLocation()
+  const supplierName: string = state?.supplierName ?? 'Coupon'
   const [coupon, setCoupon] = useState<Coupon | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -53,7 +55,7 @@ export default function CouponViewer() {
         <button onClick={() => navigate(`/suppliers/${id}`)} className="text-yellow-600 font-medium">
           ← Back
         </button>
-        <h1 className="text-lg font-bold">Coupon</h1>
+        <h1 className="text-lg font-bold">{supplierName}</h1>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 gap-8">

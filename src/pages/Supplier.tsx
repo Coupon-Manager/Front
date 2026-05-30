@@ -18,12 +18,12 @@ function sortCoupons(coupons: Coupon[], key: SortKey, dir: SortDir): Coupon[] {
   })
 }
 
-function CouponRow({ coupon, supplierId }: { coupon: Coupon; supplierId: string }) {
+function CouponRow({ coupon, supplierId, supplierName }: { coupon: Coupon; supplierId: string; supplierName: string }) {
   const navigate = useNavigate()
   const date = new Date(coupon.created_at).toLocaleDateString()
   return (
     <button
-      onClick={() => navigate(`/suppliers/${supplierId}/coupons/${coupon.id}`)}
+      onClick={() => navigate(`/suppliers/${supplierId}/coupons/${coupon.id}`, { state: { supplierName } })}
       className={`bg-white rounded-xl shadow px-4 py-3 flex items-center justify-between text-left active:scale-95 transition-transform ${
         coupon.used ? 'opacity-40' : ''
       }`}
@@ -129,7 +129,7 @@ export default function Supplier() {
               {unused.length === 0 ? (
                 <p className="text-sm text-gray-400">No available coupons.</p>
               ) : (
-                unused.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} />)
+                unused.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
               )}
             </section>
 
@@ -140,7 +140,7 @@ export default function Supplier() {
               {used.length === 0 ? (
                 <p className="text-sm text-gray-400">No used coupons.</p>
               ) : (
-                used.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} />)
+                used.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
               )}
             </section>
           </>
