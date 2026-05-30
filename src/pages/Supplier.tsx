@@ -30,7 +30,7 @@ function CouponRow({ coupon, supplierId }: { coupon: Coupon; supplierId: string 
         <span className="text-sm text-gray-500">{coupon.code ?? 'Code not parsed yet'}</span>
         <span className="text-xs text-gray-400">{date}</span>
       </div>
-      <span className="text-lg font-bold text-green-600">₪{coupon.value}</span>
+      <span className="text-lg font-bold text-red-600">₪{coupon.value}</span>
     </button>
   )
 }
@@ -72,7 +72,7 @@ export default function Supplier() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3">
-        <button onClick={() => navigate('/')} className="text-red-600 font-medium">
+        <button onClick={() => navigate('/')} className="text-yellow-600 font-medium">
           ← Back
         </button>
         <h1 className="text-lg font-bold flex-1">{supplierName}</h1>

@@ -72,7 +72,7 @@ export default function Main() {
           <button
             onClick={handleImport}
             disabled={importing}
-            className="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg disabled:opacity-50"
+            className="text-sm bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-lg disabled:opacity-50"
           >
             {importing ? 'Importing...' : 'Import email'}
           </button>
@@ -121,7 +121,7 @@ export default function Main() {
                   </div>
                 )}
                 <span className="text-sm font-medium text-gray-800 text-center">{supplier.name}</span>
-                <span className="text-lg font-bold text-green-600">₪{supplier.available_balance}</span>
+                <span className="text-lg font-bold text-red-600">₪{supplier.available_balance}</span>
               </button>
             ))}
           </div>
