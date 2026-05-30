@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSuppliers } from '../api/suppliers'
 import { importFromEmail } from '../api/import'
@@ -29,6 +29,12 @@ export default function Main() {
   const [confirmLogout, setConfirmLogout] = useState(false)
   const [lastSync, setLastSync] = useState<string | null>(null)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+  const [, tick] = useReducer(n => n + 1, 0)
+
+  useEffect(() => {
+    const id = setInterval(tick, 60000)
+    return () => clearInterval(id)
+  }, [])
 
   const loadSuppliers = useCallback(async () => {
     try {
