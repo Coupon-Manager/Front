@@ -79,7 +79,14 @@ export default function Supplier() {
         <button onClick={() => navigate('/')} className="text-yellow-600 font-medium">
           ← Back
         </button>
-        <h1 className="text-lg font-bold flex-1">{supplierName}</h1>
+        <div className="flex-1">
+          <h1 className="text-lg font-bold">{supplierName}</h1>
+          {!loading && unused.length > 0 && (
+            <p className="text-sm font-bold text-red-600">
+              ₪{unused.reduce((sum, c) => sum + c.value, 0)}
+            </p>
+          )}
+        </div>
         <div className="flex items-center gap-1">
           <select
             value={sortKey}
