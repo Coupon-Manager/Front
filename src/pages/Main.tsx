@@ -71,9 +71,9 @@ export default function Main() {
                 ₪{suppliers.reduce((sum, s) => sum + s.available_balance, 0)}
               </span>
             )}
-            {lastSync && (
-              <p className="text-xs text-gray-400">· Synced {formatRelative(lastSync)}</p>
-            )}
+            <p className="text-xs text-gray-400">
+              {lastSync ? `· Synced ${formatRelative(lastSync)}` : '· Never synced'}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
