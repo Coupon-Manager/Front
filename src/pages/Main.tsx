@@ -80,9 +80,17 @@ export default function Main() {
           <button
             onClick={handleImport}
             disabled={importing}
-            className="text-sm bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-lg disabled:opacity-50"
+            className="text-sm bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-lg disabled:opacity-50 flex items-center gap-1.5"
           >
-            {importing ? 'Importing...' : 'Import email'}
+            {importing ? (
+              <>
+                <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                </svg>
+                Importing...
+              </>
+            ) : 'Import email'}
           </button>
           <button onClick={() => setConfirmLogout(true)} className="text-sm text-gray-500">
             Logout
