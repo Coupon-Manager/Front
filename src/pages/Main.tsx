@@ -5,6 +5,7 @@ import { importFromEmail } from '../api/import'
 import { getMe } from '../api/auth'
 import { useAuth } from '../store/auth'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
+import Toast from '../components/Toast'
 import type { Supplier } from '../types'
 
 function formatRelative(dateStr: string): string {
@@ -22,19 +23,17 @@ export default function Main() {
   const navigate = useNavigate()
   const [suppliers, setSuppliers] = useState<Supplier[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [importing, setImporting] = useState(false)
-  const [importResult, setImportResult] = useState<{ imported: number; skipped: number } | null>(null)
   const [confirmLogout, setConfirmLogout] = useState(false)
   const [lastSync, setLastSync] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
   const loadSuppliers = useCallback(async () => {
     try {
       const data = await getSuppliers()
       setSuppliers(data)
-      setError(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load suppliers')
+      setToast({ message: err instanceof Error ? err.message : 'Failed to load suppliers', type: 'error' })
     }
   }, [])
 
@@ -47,14 +46,13 @@ export default function Main() {
 
   const handleImport = async () => {
     setImporting(true)
-    setImportResult(null)
     try {
       const result = await importFromEmail()
-      setImportResult({ imported: result.imported, skipped: result.skipped })
+      setToast({ message: `Imported ${result.imported}, skipped ${result.skipped}`, type: 'success' })
       await loadSuppliers()
       getMe().then(user => setLastSync(user.last_email_sync)).catch(() => {})
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Import failed')
+      setToast({ message: err instanceof Error ? err.message : 'Import failed', type: 'error' })
     } finally {
       setImporting(false)
     }
@@ -90,23 +88,15 @@ export default function Main() {
         </div>
       </header>
 
+      {toast && (
+        <Toast message={toast.message} type={toast.type} onDismiss={() => setToast(null)} />
+      )}
+
       <main className="px-4 py-4">
         {(pulling || refreshing) && (
           <p className="text-center text-sm text-gray-400 mb-2">
             {refreshing ? 'Refreshing...' : 'Release to refresh'}
           </p>
-        )}
-
-        {importResult && (
-          <div className="mb-4 bg-green-50 border border-green-200 rounded-lg px-4 py-2 text-sm text-green-700">
-            Imported {importResult.imported}, skipped {importResult.skipped}
-          </div>
-        )}
-
-        {error && (
-          <div className="mb-4 bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-sm text-red-700">
-            {error}
-          </div>
         )}
 
         {loading ? (
