@@ -19,11 +19,11 @@ Grid of supplier cards, each showing a colour-coded initial and current availabl
 
 ### Supplier Screen
 
-Two collapsible sections — Available and Used coupons. Sortable by value or date. Available balance in header. Colour picker to set the card colour (persisted per user in the backend).
+Two collapsible sections — Available and Used coupons. Sortable by value or date. Available and used balances in header. Colour picker to set the card colour (persisted per user in the backend).
 
 ### Coupon Viewer Screen
 
-Displays the coupon code in large text (grouped in 4s) for manual entry at checkout. Toggle used/unused with confirmation.
+Displays the coupon code in large text (grouped in 4s) for manual entry at checkout. Tap to copy with haptic feedback. Toggle used/unused with confirmation.
 
 ### Login Screen
 
@@ -112,6 +112,8 @@ src/
 | 33 | Fix: 401 on failed login caused page reload | ✅ |
 | 34 | Supplier card colour picker — persisted in backend | ✅ |
 | 35 | Remove pull-to-refresh | ✅ |
+| 36 | Used balance in Supplier screen header | ✅ |
+| 37 | Haptic feedback on coupon code copy | ✅ |
 
 ## Getting Started
 
