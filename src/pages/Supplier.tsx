@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getCoupons } from '../api/coupons'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import SkeletonCouponRow from '../components/SkeletonCouponRow'
+import EmptyState from '../components/EmptyState'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -110,7 +111,15 @@ export default function Supplier() {
             {Array.from({ length: 4 }).map((_, i) => <SkeletonCouponRow key={i} />)}
           </div>
         ) : coupons.length === 0 ? (
-          <p className="text-center text-gray-400 mt-12">No coupons yet.</p>
+          <EmptyState
+            icon={
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <path d="M8 30a8 8 0 000 16v4a4 4 0 004 4h56a4 4 0 004-4v-4a8 8 0 000-16v-4a4 4 0 00-4-4H12a4 4 0 00-4 4v4z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
+                <line x1="28" y1="22" x2="28" y2="58" stroke="currentColor" strokeWidth="4" strokeDasharray="6 4" strokeLinecap="round"/>
+              </svg>
+            }
+            title="No coupons yet"
+          />
         ) : (
           <>
             <section className="flex flex-col gap-2">

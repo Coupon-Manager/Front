@@ -7,6 +7,7 @@ import { useAuth } from '../store/auth'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import Toast from '../components/Toast'
 import SkeletonSupplierCard from '../components/SkeletonSupplierCard'
+import EmptyState from '../components/EmptyState'
 import type { Supplier } from '../types'
 
 function formatRelative(dateStr: string): string {
@@ -105,7 +106,16 @@ export default function Main() {
             {Array.from({ length: 6 }).map((_, i) => <SkeletonSupplierCard key={i} />)}
           </div>
         ) : suppliers.length === 0 ? (
-          <p className="text-center text-gray-400 mt-12">No suppliers yet.</p>
+          <EmptyState
+            icon={
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <rect x="8" y="20" width="64" height="44" rx="6" stroke="currentColor" strokeWidth="4"/>
+                <path d="M8 30l32 20 32-20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            }
+            title="No suppliers yet"
+            subtitle="Tap Import email to add your first coupons"
+          />
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {suppliers.map(supplier => (
