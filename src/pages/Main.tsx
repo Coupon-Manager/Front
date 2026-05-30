@@ -7,7 +7,6 @@ import { useAuth } from '../store/auth'
 import Toast from '../components/Toast'
 import SkeletonSupplierCard from '../components/SkeletonSupplierCard'
 import EmptyState from '../components/EmptyState'
-import { useSupplierColors } from '../hooks/useSupplierColors'
 import type { Supplier } from '../types'
 
 function formatRelative(dateStr: string): string {
@@ -29,7 +28,6 @@ export default function Main() {
   const [confirmLogout, setConfirmLogout] = useState(false)
   const [lastSync, setLastSync] = useState<string | null>(null)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
-  const { colors } = useSupplierColors()
   const [, tick] = useReducer(n => n + 1, 0)
 
   useEffect(() => {
@@ -126,7 +124,7 @@ export default function Main() {
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {suppliers.map(supplier => {
-              const color = colors[supplier.id]
+              const color = supplier.color ?? undefined
               return (
                 <div key={supplier.id} className="relative">
                   <button

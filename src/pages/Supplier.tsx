@@ -5,7 +5,7 @@ import SkeletonCouponRow from '../components/SkeletonCouponRow'
 import EmptyState from '../components/EmptyState'
 import Toast from '../components/Toast'
 import ColorPicker from '../components/ColorPicker'
-import { useSupplierColors } from '../hooks/useSupplierColors'
+import { updateSupplierColor } from '../api/suppliers'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -44,8 +44,7 @@ export default function Supplier() {
   const navigate = useNavigate()
   const { state } = useLocation()
   const supplierName: string = state?.name ?? 'Coupons'
-  const { colors, setColor } = useSupplierColors()
-  const supplierColor = id ? colors[Number(id)] : undefined
+  const [supplierColor, setSupplierColor] = useState<string | undefined>(state?.color ?? undefined)
   const [showPicker, setShowPicker] = useState(false)
 
   const [coupons, setCoupons] = useState<Coupon[]>([])
@@ -113,7 +112,10 @@ export default function Supplier() {
       {showPicker && id && (
         <ColorPicker
           current={supplierColor}
-          onSelect={color => setColor(Number(id), color)}
+          onSelect={color => {
+            setSupplierColor(color)
+            updateSupplierColor(Number(id), color).catch(() => {})
+          }}
           onClose={() => setShowPicker(false)}
         />
       )}
