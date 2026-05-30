@@ -51,6 +51,8 @@ export default function Supplier() {
   const [sortDir, setSortDir] = useState<SortDir>('desc')
 
   const toggleDir = () => setSortDir(d => d === 'desc' ? 'asc' : 'desc')
+  const [showUnused, setShowUnused] = useState(true)
+  const [showUsed, setShowUsed] = useState(false)
 
   const loadCoupons = useCallback(async () => {
     if (!id) return
@@ -119,24 +121,40 @@ export default function Supplier() {
         ) : (
           <>
             <section className="flex flex-col gap-2">
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                Available ({unused.length})
-              </h2>
-              {unused.length === 0 ? (
-                <p className="text-sm text-gray-400">No available coupons.</p>
-              ) : (
-                unused.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
+              <button
+                onClick={() => setShowUnused(v => !v)}
+                className="flex items-center gap-1 text-left"
+              >
+                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                  Available ({unused.length})
+                </h2>
+                <span className="text-xs text-gray-400">{showUnused ? '▲' : '▼'}</span>
+              </button>
+              {showUnused && (
+                unused.length === 0 ? (
+                  <p className="text-sm text-gray-400">No available coupons.</p>
+                ) : (
+                  unused.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
+                )
               )}
             </section>
 
             <section className="flex flex-col gap-2">
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                Used ({used.length})
-              </h2>
-              {used.length === 0 ? (
-                <p className="text-sm text-gray-400">No used coupons.</p>
-              ) : (
-                used.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
+              <button
+                onClick={() => setShowUsed(v => !v)}
+                className="flex items-center gap-1 text-left"
+              >
+                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                  Used ({used.length})
+                </h2>
+                <span className="text-xs text-gray-400">{showUsed ? '▲' : '▼'}</span>
+              </button>
+              {showUsed && (
+                used.length === 0 ? (
+                  <p className="text-sm text-gray-400">No used coupons.</p>
+                ) : (
+                  used.map(c => <CouponRow key={c.id} coupon={c} supplierId={id!} supplierName={supplierName} />)
+                )
               )}
             </section>
           </>
