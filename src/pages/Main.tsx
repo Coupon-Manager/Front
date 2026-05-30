@@ -8,6 +8,7 @@ import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import Toast from '../components/Toast'
 import SkeletonSupplierCard from '../components/SkeletonSupplierCard'
 import EmptyState from '../components/EmptyState'
+import { useSupplierColors } from '../hooks/useSupplierColors'
 import type { Supplier } from '../types'
 
 function formatRelative(dateStr: string): string {
@@ -29,6 +30,7 @@ export default function Main() {
   const [confirmLogout, setConfirmLogout] = useState(false)
   const [lastSync, setLastSync] = useState<string | null>(null)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+  const { colors } = useSupplierColors()
   const [, tick] = useReducer(n => n + 1, 0)
 
   useEffect(() => {
@@ -132,19 +134,24 @@ export default function Main() {
           />
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {suppliers.map(supplier => (
-              <button
-                key={supplier.id}
-                onClick={() => navigate(`/suppliers/${supplier.id}`, { state: { name: supplier.name } })}
-                className="bg-white rounded-xl shadow p-4 flex flex-col items-center gap-2 active:scale-95 transition-transform"
-              >
-                <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-400">
-                  {supplier.name[0]}
+            {suppliers.map(supplier => {
+              const color = colors[supplier.id]
+              return (
+                <div key={supplier.id} className="relative">
+                  <button
+                    onClick={() => navigate(`/suppliers/${supplier.id}`, { state: { name: supplier.name, color } })}
+                    className="w-full rounded-xl shadow p-4 flex flex-col items-center gap-2 active:scale-95 transition-transform"
+                    style={{ backgroundColor: color ?? 'white' }}
+                  >
+                    <div className={`h-12 w-12 rounded-full flex items-center justify-center text-xl font-bold ${color ? 'bg-white/50 text-gray-700' : 'bg-gray-100 text-gray-400'}`}>
+                      {supplier.name[0]}
+                    </div>
+                    <span className="text-sm font-medium text-gray-800 text-center">{supplier.name}</span>
+                    <span className="text-lg font-bold text-red-600">₪{supplier.available_balance}</span>
+                  </button>
                 </div>
-                <span className="text-sm font-medium text-gray-800 text-center">{supplier.name}</span>
-                <span className="text-lg font-bold text-red-600">₪{supplier.available_balance}</span>
-              </button>
-            ))}
+              )
+            })}
           </div>
         )}
       </main>

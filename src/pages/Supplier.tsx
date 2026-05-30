@@ -5,6 +5,8 @@ import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import SkeletonCouponRow from '../components/SkeletonCouponRow'
 import EmptyState from '../components/EmptyState'
 import Toast from '../components/Toast'
+import ColorPicker from '../components/ColorPicker'
+import { useSupplierColors } from '../hooks/useSupplierColors'
 import type { Coupon } from '../types'
 
 type SortKey = 'value' | 'date'
@@ -43,6 +45,9 @@ export default function Supplier() {
   const navigate = useNavigate()
   const { state } = useLocation()
   const supplierName: string = state?.name ?? 'Coupons'
+  const { colors, setColor } = useSupplierColors()
+  const supplierColor = id ? colors[Number(id)] : undefined
+  const [showPicker, setShowPicker] = useState(false)
 
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [loading, setLoading] = useState(true)
@@ -75,7 +80,7 @@ export default function Supplier() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm px-4 py-3 flex items-center gap-3">
+      <header className="shadow-sm px-4 py-3 flex items-center gap-3" style={{ backgroundColor: supplierColor ?? 'white' }}>
         <button onClick={() => navigate('/')} className="text-yellow-600 font-medium">
           ← Back
         </button>
@@ -87,6 +92,11 @@ export default function Supplier() {
             </p>
           )}
         </div>
+        <button
+          onClick={() => setShowPicker(true)}
+          className="h-6 w-6 rounded-full border-2 shadow-sm flex-shrink-0"
+          style={{ backgroundColor: supplierColor ?? '#E5E7EB', borderColor: supplierColor ? 'rgba(255,255,255,0.6)' : 'white' }}
+        />
         <div className="flex items-center gap-1">
           <select
             value={sortKey}
@@ -103,6 +113,13 @@ export default function Supplier() {
       </header>
 
       {toast && <Toast message={toast} type="error" onDismiss={() => setToast(null)} />}
+      {showPicker && id && (
+        <ColorPicker
+          current={supplierColor}
+          onSelect={color => setColor(Number(id), color)}
+          onClose={() => setShowPicker(false)}
+        />
+      )}
 
       <main className="px-4 py-4 flex flex-col gap-6">
         {(pulling || refreshing) && (
