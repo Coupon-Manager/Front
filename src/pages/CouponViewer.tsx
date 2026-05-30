@@ -11,6 +11,14 @@ export default function CouponViewer() {
   const [error, setError] = useState<string | null>(null)
   const [confirming, setConfirming] = useState(false)
   const [marking, setMarking] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    if (!coupon?.code) return
+    navigator.clipboard.writeText(coupon.code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   useEffect(() => {
     if (!id || !couponId) return
@@ -55,11 +63,19 @@ export default function CouponViewer() {
           <p className="text-red-500 text-sm">{error}</p>
         ) : coupon ? (
           <>
-            <div className="bg-white rounded-2xl shadow w-full p-8 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow w-full p-8 flex flex-col items-center gap-4">
               {coupon.code ? (
-                <span className="text-4xl font-mono font-bold tracking-widest text-center break-all">
-                  {coupon.code.replace(/(.{4})/g, '$1 ').trim()}
-                </span>
+                <>
+                  <span className="text-4xl font-mono font-bold tracking-widest text-center break-all">
+                    {coupon.code.replace(/(.{4})/g, '$1 ').trim()}
+                  </span>
+                  <button
+                    onClick={handleCopy}
+                    className="text-sm text-yellow-600 font-medium"
+                  >
+                    {copied ? 'Copied!' : 'Copy code'}
+                  </button>
+                </>
               ) : (
                 <span className="text-gray-400 text-lg">Code not parsed yet</span>
               )}
