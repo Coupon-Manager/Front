@@ -22,7 +22,7 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
   })
 
   if (!res.ok) {
-    if (res.status === 401) forceLogout()
+    if (res.status === 401 && getToken()) forceLogout()
     const body = await res.json().catch(() => null)
     const detail = body?.detail ?? `${res.status} ${res.statusText}`
     throw new Error(detail)
