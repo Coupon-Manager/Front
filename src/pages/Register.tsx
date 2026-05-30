@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { register } from '../api/auth'
 import { useAuth } from '../store/auth'
 
 export default function Register() {
   const { saveToken } = useAuth()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const { state } = useLocation()
+  const [email, setEmail] = useState(state?.email ?? '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)

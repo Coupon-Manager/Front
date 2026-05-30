@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { login } from '../api/auth'
 import { useAuth } from '../store/auth'
 
@@ -61,7 +61,13 @@ export default function Login() {
           </button>
           <p className="text-center text-sm text-gray-500">
             No account?{' '}
-            <Link to="/register" className="text-yellow-600 font-medium">Register</Link>
+            <button
+              type="button"
+              onClick={() => navigate('/register', { state: { email } })}
+              className="text-yellow-600 font-medium"
+            >
+              Register
+            </button>
           </p>
         </form>
       </div>
