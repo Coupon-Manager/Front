@@ -1,7 +1,6 @@
 export interface Supplier {
   id: number
   name: string
-  logo_url: string | null
   available_balance: number
 }
 

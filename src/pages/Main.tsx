@@ -138,13 +138,9 @@ export default function Main() {
                 onClick={() => navigate(`/suppliers/${supplier.id}`, { state: { name: supplier.name } })}
                 className="bg-white rounded-xl shadow p-4 flex flex-col items-center gap-2 active:scale-95 transition-transform"
               >
-                {supplier.logo_url ? (
-                  <img src={supplier.logo_url} alt={supplier.name} className="h-12 w-12 object-contain" />
-                ) : (
-                  <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-400">
-                    {supplier.name[0]}
-                  </div>
-                )}
+                <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-400">
+                  {supplier.name[0]}
+                </div>
                 <span className="text-sm font-medium text-gray-800 text-center">{supplier.name}</span>
                 <span className="text-lg font-bold text-red-600">₪{supplier.available_balance}</span>
               </button>
