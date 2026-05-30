@@ -4,7 +4,6 @@ import { getSuppliers } from '../api/suppliers'
 import { importFromEmail } from '../api/import'
 import { getMe } from '../api/auth'
 import { useAuth } from '../store/auth'
-import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import Toast from '../components/Toast'
 import SkeletonSupplierCard from '../components/SkeletonSupplierCard'
 import EmptyState from '../components/EmptyState'
@@ -51,8 +50,6 @@ export default function Main() {
     loadSuppliers().finally(() => setLoading(false))
     getMe().then(user => setLastSync(user.last_email_sync)).catch(() => {})
   }, [loadSuppliers])
-
-  const { refreshing, pulling } = usePullToRefresh(loadSuppliers)
 
   const handleImport = async () => {
     setImporting(true)
@@ -111,12 +108,6 @@ export default function Main() {
       )}
 
       <main className="px-4 py-4">
-        {(pulling || refreshing) && (
-          <p className="text-center text-sm text-gray-400 mb-2">
-            {refreshing ? 'Refreshing...' : 'Release to refresh'}
-          </p>
-        )}
-
         {loading ? (
           <div className="grid grid-cols-2 gap-3">
             {Array.from({ length: 6 }).map((_, i) => <SkeletonSupplierCard key={i} />)}

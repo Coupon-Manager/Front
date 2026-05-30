@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getCoupons } from '../api/coupons'
-import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import SkeletonCouponRow from '../components/SkeletonCouponRow'
 import EmptyState from '../components/EmptyState'
 import Toast from '../components/Toast'
@@ -73,8 +72,6 @@ export default function Supplier() {
     loadCoupons().finally(() => setLoading(false))
   }, [loadCoupons])
 
-  const { refreshing, pulling } = usePullToRefresh(loadCoupons)
-
   const unused = sortCoupons(coupons.filter(c => !c.used), sortKey, sortDir)
   const used = sortCoupons(coupons.filter(c => c.used), sortKey, sortDir)
 
@@ -122,12 +119,6 @@ export default function Supplier() {
       )}
 
       <main className="px-4 py-4 flex flex-col gap-6">
-        {(pulling || refreshing) && (
-          <p className="text-center text-sm text-gray-400">
-            {refreshing ? 'Refreshing...' : 'Release to refresh'}
-          </p>
-        )}
-
         {loading ? (
           <div className="flex flex-col gap-2">
             {Array.from({ length: 4 }).map((_, i) => <SkeletonCouponRow key={i} />)}
