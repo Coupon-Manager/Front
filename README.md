@@ -99,6 +99,17 @@ src/
 | 20 | Toast notifications — replace inline banners | ✅ |
 | 21 | Loading skeletons on main and supplier screens | ✅ |
 | 22 | Empty state illustrations | ✅ |
+| 23 | Supplier name in Coupon Viewer header | ✅ |
+| 24 | Error toast on Supplier screen | ✅ |
+| 25 | Collapsible Available / Used coupon sections | ✅ |
+| 26 | "Never synced" label when no import has run | ✅ |
+| 27 | Email carry-over from Login to Register screen | ✅ |
+| 28 | Password confirmation field on Register | ✅ |
+| 29 | Password visibility toggle on Login and Register | ✅ |
+| 30 | Available balance in Supplier screen header | ✅ |
+| 31 | Spinner inside Import email button | ✅ |
+| 32 | Auto-refresh "Synced X ago" every 60 seconds | ✅ |
+| 33 | Fix: 401 on failed login caused page reload | ✅ |
 
 ## Getting Started
 
