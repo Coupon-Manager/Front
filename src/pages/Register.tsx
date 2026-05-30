@@ -9,11 +9,16 @@ export default function Register() {
   const { state } = useLocation()
   const [email, setEmail] = useState(state?.email ?? '')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (password !== confirm) {
+      setError('Passwords do not match')
+      return
+    }
     setError(null)
     setLoading(true)
     try {
@@ -48,6 +53,16 @@ export default function Register() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">Confirm password</label>
+            <input
+              type="password"
+              value={confirm}
+              onChange={e => setConfirm(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
               required
             />
